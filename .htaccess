@@ -1,0 +1,9 @@
+# .htaccess
+
+RewriteEngine On
+RewriteBase /EenvoudigeDatabase/public/
+
+# Redirect to index.php for all requests
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
