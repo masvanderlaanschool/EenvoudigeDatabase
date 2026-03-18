@@ -3,13 +3,20 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../controllers/CRUDController.php';
 
 $crudController = new CRUDController();
+$error = '';
+$name = '';
+$email = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $crudController->createRecord($name, $email);
-    header('Location: index.php');
-    exit();
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+
+    if ($crudController->createRecord($name, $email)) {
+        header('Location: index.php');
+        exit();
+    }
+
+    $error = 'Please enter a valid name and email address.';
 }
 ?>
 
@@ -33,14 +40,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="card shadow-sm">
                     <div class="card-header"><h5 class="mb-0">New Contact</h5></div>
                     <div class="card-body">
+                        <?php if ($error !== ''): ?>
+                            <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+                        <?php endif; ?>
                         <form action="index.php?action=create" method="POST">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <input type="text" class="form-control" id="name" name="name" maxlength="100" value="<?php echo htmlspecialchars($name); ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control" id="email" name="email" maxlength="100" value="<?php echo htmlspecialchars($email); ?>" required>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <a href="index.php" class="btn btn-secondary">Cancel</a>

@@ -1,52 +1,62 @@
-# EenvoudigeDatabase Project
+# EenvoudigeDatabase
 
-## Overview
-EenvoudigeDatabase is a simple PHP application that provides a dashboard with CRUD (Create, Read, Update, Delete) functionalities. It allows users to manage records in a database through a user-friendly interface.
+EenvoudigeDatabase is een eenvoudige PHP + MySQL CRUD-applicatie voor het beheren van contacten.
 
-## Project Structure
+## Functionaliteit
+- Create: nieuw contact toevoegen.
+- Read: overzicht van contacten tonen.
+- Update: bestaand contact wijzigen.
+- Delete: contact verwijderen met bevestiging.
+- Extra SQL-filters op dashboard:
+	- zoeken via `LIKE` (naam/e-mail)
+	- sorteren via `ORDER BY`
+	- maximum aantal resultaten via `LIMIT`
+
+## Projectstructuur
 ```
-EenvoudigeDatabase
-├── src
-│   ├── config
-│   │   └── database.php
-│   ├── controllers
-│   │   └── CRUDController.php
-│   ├── models
-│   │   └── Database.php
-│   └── views
-│       ├── dashboard.php
-│       ├── create.php
-│       ├── edit.php
-│       └── delete.php
-├── public
-│   ├── index.php
-│   ├── css
-│   │   └── style.css
-│   └── js
-│       └── script.js
-├── .htaccess
-└── README.md
+public/
+	index.php              # router
+src/
+	config/
+		database.php         # db instellingen
+	models/
+		Database.php         # PDO connectie
+	controllers/
+		CRUDController.php   # query-logica
+	views/
+		dashboard.php
+		create.php
+		edit.php
+		delete.php
+setup.sql
+README.md
 ```
 
-## Installation
-1. Clone the repository or download the project files.
-2. Place the `EenvoudigeDatabase` folder in the `c:\xampp\htdocs\` directory.
-3. Start the XAMPP control panel and ensure that Apache and MySQL services are running.
-4. Create a new database in MySQL and import the necessary SQL schema (if provided).
-5. Update the database connection settings in `src/config/database.php` with your database credentials.
+## Installatie (XAMPP)
+1. Zet de map in `c:\xampp\htdocs\websites\EenvoudigeDatabase`.
+2. Start Apache en MySQL in XAMPP.
+3. Maak database en tabel aan met `setup.sql`.
+4. Controleer db-login in `src/config/database.php`.
+5. Open in browser:
+	 - `http://localhost/websites/EenvoudigeDatabase/public/index.php`
 
-## Usage
-- Navigate to `http://localhost/EenvoudigeDatabase/public/index.php` in your web browser.
-- Use the dashboard to create, view, edit, and delete records.
+## Technische keuzes
+- Gebruik van PDO met prepared statements voor veilige queries.
+- Simpele MVC-opbouw: model, controller, views.
+- Server-side validatie op naam en e-mail.
+- Output wordt ge-escaped met `htmlspecialchars`.
+- Bootstrap gebruikt voor overzichtelijke tabellen en formulieren.
 
-## Features
-- User-friendly dashboard for managing records.
-- Responsive forms for creating and editing records.
-- Confirmation dialogs for delete operations.
-- Clean and organized code structure for easy maintenance.
+## AVG / basisbeveiliging
+- Alleen noodzakelijke gegevens: naam en e-mail.
+- Inputvalidatie op server-side.
+- Bescherming tegen SQL-injectie via prepared statements.
+- Geen gevoelige extra persoonsgegevens opgeslagen.
 
-## Contributing
-Feel free to submit issues or pull requests for improvements and bug fixes.
+## Bekende beperkingen
+- Dit is een schoolproject en bewust eenvoudig gehouden.
+- Geen login-systeem of rollenbeheer.
+- Geen geautomatiseerde unit tests.
 
-## License
-This project is open-source and available under the MIT License.
+## Testen
+Zie `TESTVERSLAG.md` voor handmatige testgevallen en resultaten in het Nederlands.

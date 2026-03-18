@@ -5,6 +5,7 @@ require_once __DIR__ . '/../controllers/CRUDController.php';
 $crudController = new CRUDController();
 $id = $_GET['id'] ?? null;
 $data = null;
+$error = '';
 
 if ($id) {
     $data = $crudController->read($id);
@@ -12,13 +13,18 @@ if ($id) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updatedData = [
-        'id' => $_POST['id'],
-        'name' => $_POST['name'],
-        'email' => $_POST['email'],
+        'id' => $_POST['id'] ?? '',
+        'name' => trim($_POST['name'] ?? ''),
+        'email' => trim($_POST['email'] ?? ''),
     ];
-    $crudController->update($updatedData);
-    header('Location: index.php');
-    exit;
+
+    if ($crudController->update($updatedData)) {
+        header('Location: index.php');
+        exit;
+    }
+
+    $error = 'Please enter a valid name and email address.';
+    $data = $updatedData;
 }
 ?>
 
@@ -43,15 +49,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="card-header"><h5 class="mb-0">Edit Contact</h5></div>
                     <div class="card-body">
                         <?php if ($data): ?>
+                            <?php if ($error !== ''): ?>
+                                <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+                            <?php endif; ?>
                             <form action="index.php?action=edit&id=<?php echo htmlspecialchars($id); ?>" method="POST">
                                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($data['id']); ?>">
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($data['name']); ?>" required>
+                                    <input type="text" class="form-control" id="name" name="name" maxlength="100" value="<?php echo htmlspecialchars($data['name']); ?>" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($data['email']); ?>" required>
+                                    <input type="email" class="form-control" id="email" name="email" maxlength="100" value="<?php echo htmlspecialchars($data['email']); ?>" required>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <a href="index.php" class="btn btn-secondary">Cancel</a>

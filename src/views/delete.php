@@ -1,16 +1,23 @@
 <?php
 require_once __DIR__ . '/../controllers/CRUDController.php';
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $crudController = new CRUDController();
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $crudController->delete($id);
-        header('Location: index.php');
-        exit();
-    }
-} else {
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($id < 1) {
+    header('Location: index.php');
+    exit();
+}
+
+$crudController = new CRUDController();
+$record = $crudController->read($id);
+
+if (!$record) {
+    header('Location: index.php');
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $crudController->delete($id);
     header('Location: index.php');
     exit();
 }
