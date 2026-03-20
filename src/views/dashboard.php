@@ -5,7 +5,7 @@ require_once __DIR__ . '/../controllers/CRUDController.php';
 $crudController = new CRUDController();
 
 $search = trim($_GET['search'] ?? '');
-$sort = $_GET['sort'] ?? 'id';
+$sort = $_GET['sort'] ?? 'StudentID';
 $order = strtoupper($_GET['order'] ?? 'ASC');
 $limit = (int)($_GET['limit'] ?? 50);
 
@@ -29,13 +29,13 @@ $records = $crudController->read(null, [
 <body class="bg-light">
     <nav class="navbar navbar-dark bg-primary mb-4">
         <div class="container">
-            <span class="navbar-brand">Contact Manager</span>
+            <span class="navbar-brand">Studentenbeheer</span>
         </div>
     </nav>
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="h3">Contacts</h1>
-            <a href="index.php?action=create" class="btn btn-success">+ New Contact</a>
+            <h1 class="h3">Studenten</h1>
+            <a href="index.php?action=create" class="btn btn-success">+ Nieuwe student</a>
         </div>
         <div class="card shadow-sm mb-3">
             <div class="card-body">
@@ -46,16 +46,19 @@ $records = $crudController->read(null, [
                             type="text"
                             name="search"
                             class="form-control"
-                            placeholder="Search by name or email"
+                            placeholder="Zoek op naam, e-mail, opleiding of status"
                             value="<?php echo htmlspecialchars($search); ?>"
                         >
                     </div>
                     <div class="col-md-2">
                         <select name="sort" class="form-select">
-                            <option value="id" <?php echo $sort === 'id' ? 'selected' : ''; ?>>Sort: ID</option>
-                            <option value="name" <?php echo $sort === 'name' ? 'selected' : ''; ?>>Sort: Name</option>
-                            <option value="email" <?php echo $sort === 'email' ? 'selected' : ''; ?>>Sort: Email</option>
-                            <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Sort: Date</option>
+                            <option value="StudentID" <?php echo $sort === 'StudentID' ? 'selected' : ''; ?>>Sort: ID</option>
+                            <option value="Voornaam" <?php echo $sort === 'Voornaam' ? 'selected' : ''; ?>>Sort: Voornaam</option>
+                            <option value="Achternaam" <?php echo $sort === 'Achternaam' ? 'selected' : ''; ?>>Sort: Achternaam</option>
+                            <option value="Email" <?php echo $sort === 'Email' ? 'selected' : ''; ?>>Sort: E-mail</option>
+                            <option value="Startjaar" <?php echo $sort === 'Startjaar' ? 'selected' : ''; ?>>Sort: Startjaar</option>
+                            <option value="HuidigJaar" <?php echo $sort === 'HuidigJaar' ? 'selected' : ''; ?>>Sort: Huidig jaar</option>
+                            <option value="AchterstalligStudiegeld" <?php echo $sort === 'AchterstalligStudiegeld' ? 'selected' : ''; ?>>Sort: Achterstallig bedrag</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -73,7 +76,7 @@ $records = $crudController->read(null, [
                         </select>
                     </div>
                     <div class="col-md-2 d-grid">
-                        <button type="submit" class="btn btn-outline-primary">Apply</button>
+                        <button type="submit" class="btn btn-outline-primary">Toepassen</button>
                     </div>
                 </form>
             </div>
@@ -83,38 +86,44 @@ $records = $crudController->read(null, [
                 <table class="table table-striped table-hover mb-0">
                     <thead class="table-dark">
                         <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Date Added</th>
-                            <th>Actions</th>
+                            <th>ID</th>
+                            <th>Voornaam</th>
+                            <th>Achternaam</th>
+                            <th>E-mail</th>
+                            <th>Opleiding</th>
+                            <th>Status</th>
+                            <th>Achterstallig bedrag</th>
+                            <th>Acties</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if ($records): ?>
                             <?php foreach ($records as $record): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($record['id']); ?></td>
-                                    <td><?php echo htmlspecialchars($record['name']); ?></td>
-                                    <td><?php echo htmlspecialchars($record['email']); ?></td>
+                                    <td><?php echo htmlspecialchars($record['StudentID']); ?></td>
+                                    <td><?php echo htmlspecialchars($record['Voornaam']); ?></td>
+                                    <td><?php echo htmlspecialchars($record['Achternaam']); ?></td>
+                                    <td><?php echo htmlspecialchars($record['Email']); ?></td>
+                                    <td><?php echo htmlspecialchars($record['Studierichting'] ?? '-'); ?></td>
+                                    <td><?php echo htmlspecialchars($record['StudieStatus'] ?? '-'); ?></td>
                                     <td>
                                         <?php
-                                        if (!empty($record['created_at'])) {
-                                            echo htmlspecialchars(date('Y-m-d H:i', strtotime($record['created_at'])));
+                                        if ($record['AchterstalligStudiegeld'] !== null) {
+                                            echo 'EUR ' . htmlspecialchars(number_format((float)$record['AchterstalligStudiegeld'], 2, ',', '.'));
                                         } else {
-                                            echo 'Unknown';
+                                            echo '-';
                                         }
                                         ?>
                                     </td>
                                     <td>
-                                        <a href="index.php?action=edit&id=<?php echo htmlspecialchars($record['id']); ?>" class="btn btn-sm btn-primary">Edit</a>
-                                        <a href="index.php?action=delete&id=<?php echo htmlspecialchars($record['id']); ?>" class="btn btn-sm btn-danger">Delete</a>
+                                        <a href="index.php?action=edit&id=<?php echo htmlspecialchars($record['StudentID']); ?>" class="btn btn-sm btn-primary">Bewerken</a>
+                                        <a href="index.php?action=delete&id=<?php echo htmlspecialchars($record['StudentID']); ?>" class="btn btn-sm btn-danger">Verwijderen</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-4">No contacts found.</td>
+                                <td colspan="8" class="text-center text-muted py-4">Geen studenten gevonden.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

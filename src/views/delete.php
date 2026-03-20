@@ -34,19 +34,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-light">
     <nav class="navbar navbar-dark bg-primary mb-4">
         <div class="container">
-            <span class="navbar-brand">Contact Manager</span>
+            <span class="navbar-brand">Studentenbeheer</span>
         </div>
     </nav>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-5">
                 <div class="card border-danger shadow-sm">
-                    <div class="card-header bg-danger text-white"><h5 class="mb-0">Confirm Deletion</h5></div>
+                    <div class="card-header bg-danger text-white"><h5 class="mb-0">Verwijderen bevestigen</h5></div>
                     <div class="card-body text-center">
-                        <p class="mb-4">Are you sure you want to delete this contact? This action cannot be undone.</p>
+                        <p class="mb-4">Weet je zeker dat je deze student wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.</p>
                         <form method="POST" action="index.php?action=delete&id=<?php echo htmlspecialchars($id); ?>">
-                            <a href="index.php" class="btn btn-secondary me-2">Cancel</a>
-                            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                            <a href="index.php" class="btn btn-secondary me-2">Annuleren</a>
+                            <button type="submit" class="btn btn-danger">Ja, verwijderen</button>
                         </form>
                     </div>
                 </div>

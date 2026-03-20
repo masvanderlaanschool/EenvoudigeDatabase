@@ -1,12 +1,12 @@
 # EenvoudigeDatabase
 
-EenvoudigeDatabase is een eenvoudige PHP + MySQL CRUD-applicatie voor het beheren van contacten.
+EenvoudigeDatabase is een eenvoudige PHP + MySQL CRUD-applicatie voor het beheren van studenten.
 
 ## Functionaliteit
-- Create: nieuw contact toevoegen.
-- Read: overzicht van contacten tonen.
-- Update: bestaand contact wijzigen.
-- Delete: contact verwijderen met bevestiging.
+- Create: nieuwe student toevoegen.
+- Read: overzicht van studenten tonen.
+- Update: bestaande student wijzigen.
+- Delete: student verwijderen met bevestiging.
 - Extra SQL-filters op dashboard:
 	- zoeken via `LIKE` (naam/e-mail)
 	- sorteren via `ORDER BY`
@@ -48,7 +48,7 @@ README.md
 - Bootstrap gebruikt voor overzichtelijke tabellen en formulieren.
 
 ## AVG / basisbeveiliging
-- Alleen noodzakelijke gegevens: naam en e-mail.
+- Alleen noodzakelijke gegevens voor studentenadministratie.
 - Inputvalidatie op server-side.
 - Bescherming tegen SQL-injectie via prepared statements.
 - Geen gevoelige extra persoonsgegevens opgeslagen.
