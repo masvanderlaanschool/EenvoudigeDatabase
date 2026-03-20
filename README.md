@@ -1,6 +1,6 @@
 # EenvoudigeDatabase
 
-EenvoudigeDatabase is een eenvoudige PHP + MySQL CRUD-applicatie voor het beheren van studenten.
+EenvoudigeDatabase is een eenvoudige PHP + MySQL CRUD-applicatie voor het beheren van een studenten file.
 
 ## Functionaliteit
 - Create: nieuwe student toevoegen.
